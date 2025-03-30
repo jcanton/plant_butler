@@ -1,18 +1,39 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include <WiFiS3.h>
+#include <Network.h>
+
+#include <constants.h>
+#include <secrets.h>
+
+NetworkClient netcli(WIFI_SSID, WIFI_PASS);
+
+#include <map>
+
+std::map<std::string, float> data;
 
 void setup() {
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  delay(1000);
+  Serial.println("\n\nStarting up...");
+
+  netcli.connectWiFi();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-}
+  delay(10000);
+  Serial.println("\n\n==========================================================================");
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  netcli.connectToServer(HOST_NAME, HTTP_PORT);
+
+  // Add a key-value pair to the map
+  data["potnr"] = 3;
+  data["temp"] = 21.2;
+  data["humi"] = 83;
+  // Transmit data to web server
+  netcli.sendData(data);
+  netcli.getServerReply();
+
 }
