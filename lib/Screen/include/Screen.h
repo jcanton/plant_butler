@@ -1,5 +1,5 @@
-#ifndef DISPLAYS_H
-#define DISPLAYS_H
+#ifndef SCREEN_H
+#define SCREEN_H
 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
@@ -21,4 +21,4 @@ public:
   void print(uint8_t col, uint8_t row, const char* str);
 };
 
-#endif // SCREENS_H
+#endif // SCREEN_H

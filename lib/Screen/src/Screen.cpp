@@ -1,4 +1,4 @@
-#include "Screens.h"
+#include "Screen.h"
 
 Screen::Screen(ScreenType type) : type(type), lcd(0x27, 16, 2) {}
 
