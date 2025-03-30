@@ -1,9 +1,9 @@
 #include "Network.h"
 
 char buffer[10];
-String serverReply;
+String server_reply;
 
-NetworkClient::NetworkClient(const char* ssid, const char* pass) : WIFI_SSID(ssid), WIFI_PASS(pass) {}
+NetworkClient::NetworkClient(const char* ssid, const char* pass) : wifi_ssid(ssid), wifi_pass(pass) {}
 
 void NetworkClient::connectWiFi()
 {
@@ -16,7 +16,7 @@ void NetworkClient::connectWiFi()
 
     Serial.println("WiFi firmware version: " + String(WiFi.firmwareVersion()) + " / " + String(WIFI_FIRMWARE_LATEST_VERSION));
 
-    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    WiFi.begin(wifi_ssid, wifi_pass);
     Serial.println("Connecting to Wi-Fi.");
     while (WiFi.status() != WL_CONNECTED){
         Serial.print(".");
@@ -43,11 +43,11 @@ void NetworkClient::printWiFiStatus()
 
 void NetworkClient::connectToServer(const char* host, uint16_t port)
 {
-    HOST_NAME = host;
-    HTTP_PORT = port;
+    host_name = host;
+    http_port = port;
 
-    if(client.connect(HOST_NAME, HTTP_PORT)) {
-        Serial.print("Connected to server " + String(HOST_NAME) + " ");
+    if(client.connect(host_name, http_port)) {
+        Serial.print("Connected to server " + String(host_name) + " ");
         Serial.println(client.remoteIP());
     } else {
         Serial.println("Failed to connect");
@@ -61,7 +61,7 @@ bool NetworkClient::connectedToServer()
 
 void NetworkClient::sendData(std::map<std::string, float> data)
 {
-    char queryString[99];
+    char query_string[99];
 
     auto it = data.find("potnr");
     if (it == data.end()) {
@@ -77,25 +77,25 @@ void NetworkClient::sendData(std::map<std::string, float> data)
 
     Serial.println("Sending data...");
 
-    strcpy(queryString, "?potnr=");
-    strcat(queryString, std::to_string(int(data["potnr"])).c_str());
+    strcpy(query_string, "?potnr=");
+    strcat(query_string, std::to_string(int(data["potnr"])).c_str());
     data.erase("potnr");
 
     for (const auto &pair : data) {
         // Do something with key and value
-        strcat(queryString, "&");
-        strcat(queryString, pair.first.c_str());
-        strcat(queryString, "=");
+        strcat(query_string, "&");
+        strcat(query_string, pair.first.c_str());
+        strcat(query_string, "=");
         sprintf(buffer, "%.2f", pair.second);
-        strcat(queryString, buffer);
+        strcat(query_string, buffer);
     }
 
-    client.println("GET  /test/arduino_landing.php" + String(queryString) + " HTTP/1.1");
-    client.println("Host: " + String(HOST_NAME));
+    client.println("GET  /test/arduino_landing.php" + String(query_string) + " HTTP/1.1");
+    client.println("Host: " + String(host_name));
     client.println("Connection: close");
     client.println(); // end HTTP header
 
-    Serial.println("Sent data: " + String(queryString));
+    Serial.println("Sent data: " + String(query_string));
 }
 
 void NetworkClient::getServerReply()
@@ -109,16 +109,16 @@ void NetworkClient::getServerReply()
     }
     Serial.println();
     while (client.connected() || client.available()) { //connected or data available
-        serverReply += client.readString();
+        server_reply += client.readString();
     }
-    if (serverReply.length() > 0) {
+    if (server_reply.length() > 0) {
         Serial.println();
         Serial.println("--------------Answer from server:-------------");
         Serial.println();
-        Serial.print(serverReply);
+        Serial.print(server_reply);
         Serial.println();
         Serial.println("----------End of Answer from server.----------");
         Serial.println();
     }
-    serverReply="";
+    server_reply="";
 }

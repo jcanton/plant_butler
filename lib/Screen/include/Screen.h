@@ -17,7 +17,7 @@ private:
 public:
   Screen(ScreenType type);
   void initialize();
-  void clear(); // Method to clear the screen
+  void clear();
   void print(uint8_t col, uint8_t row, const char* str);
 };
 
