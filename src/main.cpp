@@ -17,7 +17,7 @@ Screen screen1(ScreenType::Oled);
 Screen screen2(ScreenType::Lcd);
 
 // Manifold(s)
-Manifold manifold1(5, 8);
+Manifold manifold1(5, 8, &screen2); // Pass screen2 to manifold1
 
 char str_buffer[16];
 int loop_count = 0;
@@ -31,7 +31,7 @@ void setup() {
   //// Initialize screen(s)
   screen1.initialize();
   screen2.initialize();
-  delay(5000);
+  delay(1000);
   
   // Initialize manifold(s)
   screen1.clear();
