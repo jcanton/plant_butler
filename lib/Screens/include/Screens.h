@@ -5,20 +5,20 @@
 #include <LiquidCrystal_I2C.h>
 #include "Arduino_SensorKit.h"
 
-enum class DisplayType {
+enum class ScreenType {
   Oled,
   Lcd
 };
 
-class Display {
+class Screen {
 private:
-  DisplayType type;
+  ScreenType type;
   LiquidCrystal_I2C lcd;
 public:
-  Display(DisplayType type);
+  Screen(ScreenType type);
   void initialize();
-  void clear(); // New method to clear the display
+  void clear(); // Method to clear the screen
   void print(uint8_t col, uint8_t row, const char* str);
 };
 
-#endif // DISPLAYS_H
+#endif // SCREENS_H
