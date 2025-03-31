@@ -6,7 +6,7 @@ int servo_fwd = 0;   // Positive speed value for the servo
 int servo_stp = 90;  // Zero value for STOP
 int servo_bwd = 180; // Negative speed value for the servo
 
-int travel_btwn_valves = 21800; // Travel time between valves in ms
+int travel_btwn_valves = 21700; // Travel time between valves in ms
 int travel_from_0_to_1 = 12500; // travel time between reset and valve 1 in ms
 
 // Initialize static member
