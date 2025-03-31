@@ -23,7 +23,7 @@ void Screen::clear() {
   }
 }
 
-void Screen::print(uint8_t col, uint8_t row, const char* str) {
+void Screen::print(uint8_t col, uint8_t row, const char *str) {
   if (type == ScreenType::Oled) {
     Oled.drawString(col, row, str);
   } else if (type == ScreenType::Lcd) {

@@ -1,16 +1,16 @@
 #include <Arduino.h>
-#include <WiFiS3.h>
-#include <Network.h>
-#include <constants.h>
-#include <secrets.h>
-#include <map>
-#include <Screen.h>
 #include <Manifold.h>
+#include <Network.h>
+#include <Screen.h>
+#include <WiFiS3.h>
+#include <constants.h>
+#include <map>
+#include <secrets.h>
 
 std::map<std::string, float> data;
 
 // WiFi client
-//NetworkClient net_client(WIFI_SSID, WIFI_PASS);
+// NetworkClient net_client(WIFI_SSID, WIFI_PASS);
 
 // Screen(s)
 Screen screen1(ScreenType::Oled);
@@ -26,13 +26,13 @@ void setup() {
   Serial.begin(9600);
   Serial.println("\n\nStarting up...");
 
-  //net_client.connectWiFi();
+  // net_client.connectWiFi();
 
-  //// Initialize screen(s)
+  // Initialize screen(s)
   screen1.initialize();
   screen2.initialize();
   delay(1000);
-  
+
   // Initialize manifold(s)
   screen1.clear();
   screen1.print(0, 0, "Init manifold 1");
@@ -74,6 +74,6 @@ void loop() {
   screen2.print(0, 0, "LCD printing");
   screen2.print(0, 1, str_buffer);
 
-  delay(1000);  // delay in between loops
+  delay(1000); // delay in between loops
   loop_count++;
 }
